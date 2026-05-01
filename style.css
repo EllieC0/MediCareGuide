@@ -1,0 +1,509 @@
+/*
+ * MediCareGuide — Elderly-Friendly Stylesheet
+ * =========================================
+ * Targets users 65+:
+ *   • 18px+ base font size
+ *   • High-contrast navy (#003366) on white
+ *   • Minimum 56px tap targets for all buttons
+ *   • Single-column 860px max-width layout
+ *   • Georgia serif for readability
+ */
+
+/* ── Base typography ─────────────────────────────────────── */
+html,
+body,
+[class*="css"] {
+    font-size: 18px !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    color: #1a1a1a !important;
+}
+
+/* ── Headings (navy, WCAG AAA contrast) ──────────────────── */
+h1,
+[data-testid="stHeading"] h1 {
+    font-size: 2.2rem !important;
+    color: #003366 !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+h2,
+[data-testid="stHeading"] h2 {
+    font-size: 1.7rem !important;
+    color: #003366 !important;
+    font-weight: 700 !important;
+}
+
+h3,
+[data-testid="stHeading"] h3 {
+    font-size: 1.4rem !important;
+    color: #003366 !important;
+    font-weight: 600 !important;
+}
+
+/* ── Single-column centred layout ────────────────────────── */
+.main .block-container {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    padding-top: 2rem !important;
+    padding-bottom: 5rem !important;
+}
+
+/* ── All buttons — large tap targets ─────────────────────── */
+.stButton > button {
+    min-height: 56px !important;
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    border: 2px solid #003366 !important;
+    border-radius: 8px !important;
+    white-space: normal !important;   /* allow label wrapping */
+    line-height: 1.3 !important;
+    padding: 0.5rem 1rem !important;
+    transition: background-color 0.15s, color 0.15s !important;
+}
+
+/* Secondary (default) button */
+.stButton > button:not([data-testid="baseButton-primary"]) {
+    background-color: #ffffff !important;
+    color: #003366 !important;
+}
+
+.stButton > button:not([data-testid="baseButton-primary"]):hover {
+    background-color: #e8eef5 !important;
+}
+
+/* Primary button — navy */
+[data-testid="baseButton-primary"],
+.stButton > button[kind="primary"] {
+    background-color: #003366 !important;
+    color: #ffffff !important;
+    border-color: #003366 !important;
+}
+
+[data-testid="baseButton-primary"]:hover,
+.stButton > button[kind="primary"]:hover {
+    background-color: #00224d !important;
+}
+
+/* ── Text inputs ─────────────────────────────────────────── */
+.stTextInput input {
+    font-size: 1.15rem !important;
+    min-height: 52px !important;
+    padding: 0.6rem 0.8rem !important;
+    border: 2px solid #8a9bbf !important;
+    border-radius: 6px !important;
+}
+
+.stTextInput input:focus {
+    border-color: #003366 !important;
+    box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.25) !important;
+}
+
+/* ── Slider ──────────────────────────────────────────────── */
+.stSlider > div > div > div > div {
+    background-color: #003366 !important;
+}
+
+.stSlider [data-testid="stThumbValue"] {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
+
+/* ── Checkboxes — enlarged ───────────────────────────────── */
+.stCheckbox label {
+    font-size: 1.05rem !important;
+    cursor: pointer !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"] span {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* ── Progress bar ────────────────────────────────────────── */
+.stProgress > div > div > div {
+    background-color: #003366 !important;
+}
+
+.stProgress + p {
+    font-size: 1rem !important;
+    color: #555 !important;
+}
+
+/* ── Metric boxes in plan cards ──────────────────────────── */
+[data-testid="stMetricValue"] {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #003366 !important;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.9rem !important;
+    color: #555 !important;
+    font-family: Georgia, serif !important;
+}
+
+/* ── Expander header ─────────────────────────────────────── */
+.streamlit-expanderHeader,
+[data-testid="stExpanderToggleIcon"] + div {
+    font-size: 1.05rem !important;
+    font-weight: 600 !important;
+    color: #003366 !important;
+}
+
+/* ── Info / warning / success boxes ─────────────────────── */
+.stAlert {
+    font-size: 1rem !important;
+    border-radius: 8px !important;
+}
+
+/* ── Chat messages ───────────────────────────────────────── */
+[data-testid="stChatMessage"] {
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+}
+
+/* ── Caption / small text ────────────────────────────────── */
+.stCaption,
+[data-testid="stCaption"] {
+    font-size: 0.95rem !important;
+    color: #444 !important;
+}
+
+/* ── Dataframe ───────────────────────────────────────────── */
+[data-testid="stDataFrame"] {
+    font-size: 0.95rem !important;
+}
+
+/* ── Sidebar buttons ─────────────────────────────────────── */
+[data-testid="stSidebar"] .stButton > button {
+    min-height: 48px !important;
+}
+
+/* ── Audio toggle pill — override global min-height ─────── */
+.audio-toggle-col .stButton > button {
+    min-height: 28px !important;
+    height: 28px !important;
+    padding: 2px 10px !important;
+    font-size: 0.78rem !important;
+    border-radius: 14px !important;
+    border-width: 1px !important;
+    white-space: nowrap !important;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+hr {
+    border-color: #ccd6e6 !important;
+    margin: 1.2rem 0 !important;
+}
+
+/* ── Tabs — larger labels so elderly users notice them ──── */
+[data-baseweb="tab-list"] {
+    gap: 8px !important;
+}
+
+[data-baseweb="tab"] {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    color: #003366 !important;
+    font-family: Georgia, serif !important;
+}
+
+[data-baseweb="tab"] p,
+[data-baseweb="tab"] span {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #003366 !important;
+    font-family: Georgia, serif !important;
+}
+
+/* ── Spinner text ────────────────────────────────────────── */
+[data-testid="stSpinner"] p {
+    font-size: 1rem !important;
+    color: #003366 !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   WELCOME screen — Hero, Feature cards, Steps
+   ════════════════════════════════════════════════════════════ */
+
+/* Hero banner — flat bottom so it merges with the CTA button below */
+.hero-banner {
+    background: linear-gradient(135deg, #001f4d 0%, #0047a3 40%, #0072ce 70%, #00a8cc 100%);
+    border-radius: 16px 16px 0 0;
+    padding: 48px 40px 24px;
+    text-align: center;
+    margin-bottom: 0;
+    box-shadow: none;   /* shadow moves to the CTA button container below */
+}
+
+/* Sub-text shown inside the hero, above the CTA button */
+.hero-cta-sub {
+    font-size: 0.82rem !important;
+    color: rgba(255, 255, 255, 0.62) !important;
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+    font-family: Georgia, serif !important;
+    text-align: center !important;
+}
+
+/* ── Remove the Streamlit flex-gap between hero and CTA button ─────────
+   .hero-cta-section is an empty marker div in the same markdown block as
+   .hero-banner, so :has(.hero-cta-section) reliably identifies the inner
+   st.container() stVerticalBlock.                                          */
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) {
+    gap: 0 !important;
+}
+
+/* ── CTA section — white panel at the bottom of the hero ──────────────
+   Visually distinct from the dark gradient above; draws the eye down.    */
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) > div:last-child {
+    background: #ffffff;
+    border-radius: 0 0 16px 16px;
+    padding: 28px 40px 36px;
+    box-shadow: 0 6px 32px rgba(0, 51, 102, 0.32);
+}
+
+/* CTA button overrides — see bottom of file (must appear after global primary rules) */
+
+.hero-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, rgba(255,210,0,0.25) 0%, rgba(255,255,255,0.15) 100%);
+    border: 1px solid rgba(255,220,60,0.55);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 0.82rem;
+    color: #ffe87a;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: Georgia, serif;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 3.2rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 0 14px !important;
+    line-height: 1.1 !important;
+    font-family: Georgia, serif !important;
+}
+
+.hero-tagline {
+    font-size: 1.35rem;
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+    font-weight: 500;
+}
+
+.hero-sub {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.02em;
+    font-family: Georgia, serif;
+}
+
+/* Trust bar — compact informational strip, not interactive */
+.trust-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: linear-gradient(90deg, #eef6ff 0%, #f0faf6 50%, #fff7ee 100%);
+    border: 1.5px solid #d0e4f0;
+    border-radius: 10px;
+    padding: 14px 24px;
+    margin-bottom: 24px;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+    padding: 0 12px;
+}
+
+.trust-divider {
+    width: 1px;
+    height: 40px;
+    background: #ccd6e6;
+    flex-shrink: 0;
+}
+
+.trust-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.trust-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #003366;
+    font-family: Georgia, serif;
+    line-height: 1.3;
+}
+
+.trust-desc {
+    font-size: 0.78rem;
+    color: #666;
+    font-family: Georgia, serif;
+    line-height: 1.4;
+    margin-top: 2px;
+}
+
+/* Chat intro box */
+.chat-intro {
+    background: #f0f4fa;
+    border: 1.5px solid #ccd6e6;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+}
+
+.chat-intro-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 6px;
+    font-family: Georgia, serif;
+}
+
+.chat-intro-sub {
+    font-size: 0.93rem;
+    color: #444;
+    line-height: 1.55;
+    font-family: Georgia, serif;
+}
+
+/* How it works heading */
+.how-it-works-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 16px;
+    font-family: Georgia, serif;
+}
+
+/* Step cards */
+.step-card {
+    background: #fff;
+    border: 1.5px solid #dde4ee;
+    border-radius: 12px;
+    padding: 24px 20px;
+    min-height: 160px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    border-top: 4px solid #003366; /* overridden per-step below */
+}
+
+/* Per-step accent colours */
+.step-card:nth-child(1) { border-top-color: #0072ce; }   /* blue   — Tell us */
+.step-card:nth-child(2) { border-top-color: #00966e; }   /* teal   — Filter & sort */
+.step-card:nth-child(3) { border-top-color: #c75000; }   /* orange — Gemma explains */
+
+.step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #003366;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+}
+
+/* Match num circle to step colour */
+.step-card:nth-child(1) .step-num { background: #0072ce; }
+.step-card:nth-child(2) .step-num { background: #00966e; }
+.step-card:nth-child(3) .step-num { background: #c75000; }
+
+.step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 8px;
+    font-family: Georgia, serif;
+}
+
+/* Match title colour to step */
+.step-card:nth-child(1) .step-title { color: #0055aa; }
+.step-card:nth-child(2) .step-title { color: #006b4e; }
+.step-card:nth-child(3) .step-title { color: #b54500; }
+
+.step-desc {
+    font-size: 0.87rem;
+    color: #555;
+    line-height: 1.55;
+    font-family: Georgia, serif;
+}
+
+/* Primary Streamlit buttons (used on INTAKE / SELECT screens) */
+.stButton > button[data-testid="baseButton-primary"] {
+    min-height: 56px !important;
+    font-size: 1rem !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+/* Language selector pills — compact, readable */
+.lang-pill .stButton > button {
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 4px 10px !important;
+    font-size: 0.88rem !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* ── Inline welcome chat form ────────────────────────────── */
+div[data-testid="stForm"] {
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+div[data-testid="stForm"] .stTextInput input {
+    border: 2px solid #8a9bbf !important;
+    border-radius: 8px !important;
+    min-height: 52px !important;
+    font-size: 1rem !important;
+    background: #fff !important;
+}
+
+div[data-testid="stForm"] .stTextInput input:focus {
+    border-color: #003366 !important;
+}
+
+div[data-testid="stForm"] .stFormSubmitButton button {
+    min-height: 52px !important;
+    background: #003366 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+/* Sidebar polish */
+[data-testid="stSidebar"] {
+    background: #f8f9fc !important;
+    border-right: 1.5px solid #dde4ee !important;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    min-height: 46px !important;
+    font-size: 0.95rem !important;
+}
+
+/* CTA hero button size is applied via JavaScript in render_welcome()
+   (st.components.v1.html) — no broad CSS rule needed here.               */
