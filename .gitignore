@@ -7,5 +7,9 @@ plans_24073.xlsx
 .medicareguide_rag/
 medicareguide_session.json
 
+# Python cache
+__pycache__/
+*.pyc
+
 # macOS
 .DS_Store
