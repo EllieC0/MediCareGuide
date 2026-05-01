@@ -58,7 +58,6 @@ The mode toggle is on the opening screen. All other components (STT, TTS, embedd
 
 - **Local inference latency:** Private mode can take several minutes per response on CPU-only hardware.
 - **Multilingual audio requires macOS:** Chinese and Spanish TTS uses macOS `say`. On Windows/Linux, text responses work but audio falls back to English only.
-- **No provider network or formulary data:** Cannot confirm whether a specific doctor or drug is covered. Users must verify with each plan before enrolling.
 
 ---
 
