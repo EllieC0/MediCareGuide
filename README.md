@@ -20,7 +20,7 @@ ollama pull gemma4:31b-cloud    # Fast mode (default) — Ollama-hosted, zero-re
 ollama pull gemma4:e4b          # Private mode (optional) — fully local, air-gapped
 ollama serve                     # starts automatically on most installs
 ```
-
+---
 ### Required Data Files
 
 Place both files in the same directory as `app.py`:
@@ -31,15 +31,6 @@ Place both files in the same directory as `app.py`:
 | `10050-medicare-and-you.pdf` | Search "Medicare & You 2026" at [Medicare.gov publications](https://www.medicare.gov/publications) |
 
 Both files are free U.S. government public data. Not included due to file size. The RAG index builds automatically on first run (~30s) and caches to `~/.medicareguide_rag/` for subsequent startups (~2.5s).
-
-### macOS Audio Setup (Chinese and Spanish TTS)
-
-Chinese and Spanish read-aloud uses macOS premium neural voices. Download them once:
-**System Settings → Accessibility → Spoken Content → Manage Voices**
-- Chinese: `Lili (Premium)`
-- Spanish: `Sandy (Spanish (Mexico))`
-
-English TTS (Kokoro ONNX) downloads automatically on first use.
 
 ---
 
@@ -53,14 +44,6 @@ English TTS (Kokoro ONNX) downloads automatically on first use.
 The mode toggle is on the opening screen. All other components (STT, TTS, embeddings, filtering, session state) run on-device in both modes.
 
 ---
-
-## Known Limitations
-
-- **Local inference latency:** Private mode can take several minutes per response on CPU-only hardware.
-- **Multilingual audio requires macOS:** Chinese and Spanish TTS uses macOS `say`. On Windows/Linux, text responses work but audio falls back to English only.
-
----
-
 ## Project Structure
 
 | File | Purpose |
@@ -78,6 +61,22 @@ The mode toggle is on the opening screen. All other components (STT, TTS, embedd
 | `test_medicareguide.py` | Legacy CLI interface |
 
 For architecture details, pipeline diagrams, and design decisions see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+---
+### macOS Audio Setup (Chinese and Spanish TTS)
+
+Chinese and Spanish read-aloud uses macOS premium neural voices. Download them once:
+**System Settings → Accessibility → Spoken Content → Manage Voices**
+- Chinese: `Lili (Premium)`
+- Spanish: `Sandy (Spanish (Mexico))`
+
+### English TTS (Kokoro ONNX) downloads automatically on first use.
+
+---
+## Known Limitations
+
+- **Local inference latency:** Private mode can take several minutes per response on CPU-only hardware.
+- **Multilingual audio requires macOS:** Chinese and Spanish TTS uses macOS `say`. On Windows/Linux, text responses work but audio falls back to English only.
 
 ---
 
