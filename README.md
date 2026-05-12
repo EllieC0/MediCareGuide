@@ -10,7 +10,7 @@ Every year, roughly 11,000 Americans turn 65 and face a Medicare enrollment deci
 
 ```bash
 uv sync
-uv run streamlit run app.py
+uv run streamlit run main.py
 ```
 
 Requires **Ollama** running locally:
@@ -23,7 +23,7 @@ ollama serve                     # starts automatically on most installs
 ---
 ### Required Data Files
 
-Place both files in the same directory as `app.py`:
+Place both files in the `data/` directory:
 
 | File | How to get it |
 |---|---|
@@ -48,17 +48,18 @@ The mode toggle is on the opening screen. All other components (STT, TTS, embedd
 
 | File | Purpose |
 |---|---|
-| `app.py` | Primary entry point — Streamlit web UI |
-| `medicareguide_inference.py` | Prompt builders for WELCOME and SELECT modes |
-| `medicareguide_ollama.py` | Ollama HTTP transport, two-mode model routing |
-| `medicareguide_lookup.py` | CMS plan filtering and sorting (pandas) |
-| `medicareguide_rag.py` | RAG pipeline — PDF chunking, FAISS index, retrieval |
-| `medicareguide_session.py` | Session state machine, intent routing |
-| `medicareguide_stt.py` | Speech-to-text (faster-whisper, offline) |
-| `medicareguide_tts.py` | Text-to-speech (Kokoro ONNX + macOS `say`) |
-| `medicareguide_international.py` | UI i18n — English, 中文, Español |
-| `style.css` | Elderly-friendly stylesheet (large text, high contrast) |
-| `test_medicareguide.py` | Legacy CLI interface |
+| `main.py` | Primary entry point — Streamlit web UI |
+| `ui/international.py` | UI i18n — English, 中文, Español |
+| `ui/style.css` | Elderly-friendly stylesheet (large text, high contrast) |
+| `core/inference.py` | Prompt builders for WELCOME and SELECT modes |
+| `core/lookup.py` | CMS plan filtering and sorting (pandas) |
+| `core/ollama.py` | Ollama HTTP transport, two-mode model routing |
+| `core/rag.py` | RAG pipeline — PDF chunking, FAISS index, retrieval |
+| `core/session.py` | Session state machine, intent routing |
+| `core/stt.py` | Speech-to-text (faster-whisper, offline) |
+| `core/tts.py` | Text-to-speech (Kokoro ONNX + macOS `say`) |
+| `tests/test_medicareguide.py` | Legacy CLI interface and test suite |
+| `data/` | Required data files (CSV, PDF) |
 
 For architecture details, pipeline diagrams, and design decisions see [ARCHITECTURE.md](ARCHITECTURE.md).
 

@@ -5,7 +5,7 @@ Loads the CMS Landscape CSV, resolves ZIP codes to counties, and filters
 plans by the session profile collected during intake.
 
 Architecture position:
-    medicareguide_session  →  medicareguide_lookup  →  medicareguide_inference
+    core.session  →  core.lookup  →  core.inference
     (profile{})            (filtered df)         (prompt builder)
 
 Call sequence every SELECT-mode turn:
@@ -180,7 +180,7 @@ def _to_numeric(series: pd.Series, fallback: float = 9999.0) -> pd.Series:
 #  Sort labels — single source of truth                                  #
 # ====================================================================== #
 #
-#  Keys match state["sort_key"] values set by medicareguide_session.
+#  Keys match state["sort_key"] values set by core.session.
 #  Values are shown to the user verbatim as the sort transparency string.
 
 SORT_LABELS: dict[str, str] = {
@@ -237,7 +237,7 @@ def sort_plans(
         lowest_deductible → secondary: lowest premium
 
     A _rank column (1-based integer) is added to the returned DataFrame.
-    _format_plans_as_text() in medicareguide_inference.py reads this column
+    _format_plans_as_text() in core.inference.py reads this column
     to label plan blocks as "Plan 1", "Plan 2", etc. in the prompt.
 
     Args:
@@ -764,7 +764,7 @@ class MediCareGuideLookup:
         #              Rationale: user wants a standalone drug plan to pair
         #              with Original Medicare. PDP plans only.
         #
-        #    "MEDIGAP" → never reaches this method (medicareguide_session keeps
+        #    "MEDIGAP" → never reaches this method (core.session keeps
         #              mode = EDUCATE for MEDIGAP and issues a referral).
         #              Included as a guard in case the caller bypasses session.
         #
@@ -1003,7 +1003,7 @@ class MediCareGuideLookup:
 if __name__ == "__main__":
     import sys
 
-    csv_path = sys.argv[1] if len(sys.argv) > 1 else "data/CY2026_Landscape.csv"
+    csv_path = sys.argv[1] if len(sys.argv) > 1 else "data/CY2026_Landscape_202603.csv"
     test_zip = sys.argv[2] if len(sys.argv) > 2 else "24502"
 
     print(f"\n{'='*60}")

@@ -9,8 +9,8 @@ structured UI selections for steps 1–4 and ZIP text input for step 0.
 process_turn() is a pure Q&A turn handler and never writes to the profile.
 
 Usage:
-    from medicareguide_lookup import MediCareGuideLookup
-    from medicareguide_session import MediCareGuideSession
+    from core.lookup import MediCareGuideLookup
+    from core.session import MediCareGuideSession
 
     lookup = MediCareGuideLookup("CY2026_Landscape_202603.csv")
     session = MediCareGuideSession(lookup)
@@ -26,7 +26,7 @@ Usage:
 
 from __future__ import annotations
 
-from medicareguide_lookup import MediCareGuideLookup
+from core.lookup import MediCareGuideLookup
 
 
 class MediCareGuideSession:

@@ -5,7 +5,7 @@ Full UI translation for three languages: English, 中文 (Simplified Chinese),
 and Español (Spanish).
 
 Usage:
-    from medicareguide_international import t
+    from app.international import t
 
     t("cta_button", "中文")          # returns "开始 — 查找我的医保计划 →"
     t("budget_display", "Español", val=50)  # "Verá planes de $50/mes o menos."

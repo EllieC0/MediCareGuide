@@ -12,7 +12,7 @@ How it works
    - Split each page into overlapping 300-word chunks.
    - Embed every chunk with all-MiniLM-L6-v2 (22 MB, CPU-friendly).
    - Store vectors in a FAISS IndexFlatIP index.
-   - Persist index + metadata to ~/.medicareguide_rag/ so the build runs once.
+   - Persist index + metadata to ~/.core.rag/ so the build runs once.
 
 2. RETRIEVE (per query, ~100-250 ms on CPU):
    - Embed the user query (same model).
@@ -51,8 +51,8 @@ except ImportError:
 
 # ── Constants ─────────────────────────────────────────────────────────────
 
-PDF_PATH      = Path(__file__).parent / "10050-medicare-and-you.pdf"
-CACHE_DIR     = Path.home() / ".medicareguide_rag"
+PDF_PATH      = Path(__file__).parent.parent / "data" / "10050-medicare-and-you.pdf"
+CACHE_DIR     = Path.home() / ".core.rag"
 INDEX_FILE    = CACHE_DIR / "index.faiss"
 META_FILE     = CACHE_DIR / "meta.pkl"
 

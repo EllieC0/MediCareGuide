@@ -6,7 +6,7 @@ history. Routing between welcome and selection mode is handled upstream
 by MediCareGuideSession — this module only builds prompts.
 
 Usage:
-    from medicareguide_inference import (
+    from core.inference import (
         INTAKE_QUESTIONS,
         build_prompt_welcome_mode,
         build_prompt_select_mode,

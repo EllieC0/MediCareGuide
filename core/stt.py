@@ -15,7 +15,7 @@ Dependencies:
     pip3 install sounddevice faster-whisper
 
 Usage:
-    from medicareguide_stt import smart_input, VOICE_AVAILABLE
+    from core.stt import smart_input, VOICE_AVAILABLE
 
     zipcode = smart_input("Enter ZIP code").strip()
 """

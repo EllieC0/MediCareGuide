@@ -32,33 +32,39 @@ Requires Ollama running locally:
 import sys
 import argparse
 import re
+from pathlib import Path
+
+# Add project root to sys.path so 'core' package can be found
+root_path = str(Path(__file__).parent.parent)
+if root_path not in sys.path:
+    sys.path.append(root_path)
 
 # ── Core modules ──────────────────────────────────────────────────────
-from medicareguide_lookup    import MediCareGuideLookup, sort_plans, derive_sort_key, SORT_LABELS
-from medicareguide_inference import (
+from core.lookup    import MediCareGuideLookup, sort_plans, derive_sort_key, SORT_LABELS
+from core.inference import (
     INTAKE_QUESTIONS,
     build_prompt_welcome_mode,
     build_prompt_select_mode,
 )
-from medicareguide_ollama    import call_ollama
-from medicareguide_session   import MediCareGuideSession
+from core.ollama    import call_ollama
+from core.session   import MediCareGuideSession
 
 # ── Optional modules (degrade gracefully if not installed) ────────────
 try:
-    from medicareguide_stt import smart_input, VOICE_AVAILABLE
+    from core.stt import smart_input, VOICE_AVAILABLE
 except ImportError:
     VOICE_AVAILABLE = False
     def smart_input(prompt: str) -> str:      # type: ignore[misc]
         return input(prompt)
 
 try:
-    from medicareguide_tts import speak, TTS_AVAILABLE
+    from core.tts import speak, TTS_AVAILABLE
 except ImportError:
     TTS_AVAILABLE = False
     def speak(text: str, **kwargs) -> None:   # type: ignore[misc]
         pass
 
-CSV_PATH = "CY2026_Landscape_202603.csv"
+CSV_PATH = Path(__file__).parent.parent / "data" / "CY2026_Landscape_202603.csv"
 
 # Medigap referral — no Landscape data exists for these plans
 MEDIGAP_REFERRAL = (

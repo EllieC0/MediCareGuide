@@ -1,10 +1,13 @@
-# MediCareGuide — large data files
-CY2026_Landscape_202603.csv
-10050-medicare-and-you.pdf
+# MediCareGuide — large data files in the data/ directory
+data/CY2026_Landscape_202603.csv
+data/10050-medicare-and-you.pdf
+data/*.csv
+data/*.pdf
 plans_24073.xlsx
 
-# RAG cache and session state
+# RAG cache and session state (now often stored in home directory but keeping local ignore as well)
 .medicareguide_rag/
+.medicareguide_session.json
 medicareguide_session.json
 
 # Python cache

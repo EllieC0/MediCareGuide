@@ -16,22 +16,23 @@ Place CY2026_Landscape_202603.csv in the same directory, or edit CSV_PATH.
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 
-from medicareguide_lookup    import MediCareGuideLookup, sort_plans, derive_sort_key, SORT_LABELS
-from medicareguide_inference import (
+from core.lookup    import MediCareGuideLookup, sort_plans, derive_sort_key, SORT_LABELS
+from core.inference import (
     build_prompt_welcome_mode,
     build_prompt_select_mode,
     build_prompt_filter_explanation,
     build_prompt_sort_reasoning,
 )
-from medicareguide_ollama    import call_ollama, split_system_and_user
-from medicareguide_session   import MediCareGuideSession
-from medicareguide_international      import t as _ti18n
+from core.ollama    import call_ollama, split_system_and_user
+from core.session   import MediCareGuideSession
+from ui.international      import t as _ti18n
 
 
 def _t(key: str, **kwargs) -> str:
@@ -40,7 +41,7 @@ def _t(key: str, **kwargs) -> str:
     return _ti18n(key, lang, **kwargs)
 
 try:
-    from medicareguide_tts import generate_audio_bytes, TTS_AVAILABLE
+    from core.tts import generate_audio_bytes, TTS_AVAILABLE
 except ImportError:
     TTS_AVAILABLE = False
 
@@ -48,7 +49,7 @@ except ImportError:
         return None
 
 try:
-    from medicareguide_stt import transcribe_streamlit_audio, WHISPER_AVAILABLE as STT_AVAILABLE
+    from core.stt import transcribe_streamlit_audio, WHISPER_AVAILABLE as STT_AVAILABLE
 except ImportError:
     STT_AVAILABLE = False
 
@@ -56,7 +57,7 @@ except ImportError:
         return None
 
 try:
-    from medicareguide_rag import build_or_load_index, retrieve, format_context, RAG_AVAILABLE
+    from core.rag import build_or_load_index, retrieve, format_context, RAG_AVAILABLE
 except ImportError:
     RAG_AVAILABLE = False
 
@@ -74,7 +75,7 @@ except ImportError:
 #  Constants                                                                #
 # ======================================================================== #
 
-CSV_PATH           = "CY2026_Landscape_202603.csv"
+CSV_PATH           = Path(__file__).parent / "data" / "CY2026_Landscape_202603.csv"
 _SAVED_SESSION_PATH = Path.home() / ".medicareguide_session.json"
 
 MEDIGAP_REFERRAL = (
@@ -289,7 +290,7 @@ st.set_page_config(
 
 # ── CSS injection ──────────────────────────────────────────────────────────
 try:
-    with open("style.css") as _f:
+    with open(Path(__file__).parent / "ui" / "style.css") as _f:
         st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 except FileNotFoundError:
     pass
@@ -327,7 +328,7 @@ def _warm_tts() -> None:
     """Pre-load the Kokoro ONNX model at startup so audio plays instantly."""
     if TTS_AVAILABLE:
         try:
-            from medicareguide_tts import _get_kokoro
+            from core.tts import _get_kokoro
             _get_kokoro()
         except Exception:
             pass
@@ -342,7 +343,7 @@ def get_rag_index():
     Build or load the FAISS index from the CMS Medicare & You 2026 PDF.
     Cached by Streamlit — runs once per server process.
     First run takes ~30 s on CPU to embed ~350 chunks; subsequent startups
-    load the saved index from ~/.medicareguide_rag/ in < 1 s.
+    load the saved index from ~/.core.rag/ in < 1 s.
     """
     return build_or_load_index()
 
@@ -700,7 +701,7 @@ def render_welcome() -> None:
     # the .hero-banner container, leaving all other buttons untouched.
     # Kept outside st.container() so the iframe wrapper is not a child of the
     # hero stVerticalBlock (which would trigger the white-panel CSS on the iframe).
-    components.html("""
+    st.html("""
     <script>
     (function() {
         function styleBtn() {
@@ -731,7 +732,7 @@ def render_welcome() -> None:
         }, 100);
     })();
     </script>
-    """, height=0)
+    """)
 
     st.divider()
 

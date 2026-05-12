@@ -8,10 +8,10 @@ Requires Python 3.10+ and:
     pip install kokoro-onnx onnxruntime sounddevice soundfile
 
 Model files are downloaded automatically from HuggingFace on first use
-and cached in ~/.cache/medicareguide_tts/.
+and cached in ~/.cache/core.tts/.
 
 Usage:
-    from medicareguide_tts import speak, TTS_AVAILABLE
+    from core.tts import speak, TTS_AVAILABLE
     speak("Hello, here are your Medicare plan options.")
 
 Changes from original _clean_text():
@@ -40,7 +40,7 @@ try:
 except ImportError:
     TTS_AVAILABLE = False
 
-_CACHE_DIR = Path.home() / ".cache" / "medicareguide_tts"
+_CACHE_DIR = Path.home() / ".cache" / "core.tts"
 _MODEL_URL  = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
 _VOICES_URL = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
 

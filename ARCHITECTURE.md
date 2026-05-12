@@ -8,12 +8,12 @@ Technical reference for the MediCareGuide codebase. For project overview, setup,
 
 | File | Purpose |
 |---|---|
-| `app.py` | **Primary entry point** — Streamlit web UI |
-| `test_medicareguide.py` | Legacy CLI interface (text only, no UI) |
+| `main.py` | **Primary entry point** — Streamlit web UI |
+| `tests/test_medicareguide.py` | Legacy CLI interface (text only, no UI) |
 
 ---
 
-## UI Layer — `app.py`
+## UI Layer — `main.py`
 
 Streamlit single-page app. All UI logic lives here.
 
@@ -51,7 +51,7 @@ Streamlit single-page app. All UI logic lives here.
 
 **Intake "Explain" buttons — hardcoded HTML, no Gemma call:**
 
-Each intake step has an "Explain" button. All four are hardcoded constants in `app.py`
+Each intake step has an "Explain" button. All four are hardcoded constants in `main.py`
 — instant, consistent, and informative (highlights differences, not definitions):
 
 | Step | Constant | Content |
@@ -87,13 +87,13 @@ Hardcoded HTML blocks (explain cards, plan cards) use raw `$` — HTML is unaffe
 │  User question                                                   │
 │       │                                                          │
 │       ▼                                                          │
-│  medicareguide_rag  ── FAISS search ──► top-3 handbook passages │
+│  core/rag.py  ── FAISS search ──► top-3 handbook passages │
 │       │              (Medicare & You 2026, 213 chunks)          │
 │       ▼                                                          │
-│  medicareguide_inference  build_prompt_welcome_mode()           │
+│  core/inference.py  build_prompt_welcome_mode()           │
 │       │  (injects RAG context as ## REFERENCE block)           │
 │       ▼                                                          │
-│  medicareguide_ollama  ──► Gemma 4  ──► page-cited answer       │
+│  core/ollama.py  ──► Gemma 4  ──► page-cited answer       │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
@@ -102,27 +102,27 @@ Hardcoded HTML blocks (explain cards, plan cards) use raw `$` — HTML is unaffe
 │  5-step intake wizard  +  session restore (JSON)               │
 │       │                                                          │
 │       ▼                                                          │
-│  medicareguide_lookup  get_plans_filtered()                     │
+│  core/lookup.py  get_plans_filtered()                     │
 │       │  ZIP → track → SNP → budget → sanctions                │
 │       ▼                                                          │
 │  Gemma 4  ──► filter explanation  (plain-English rewrite)      │
 │       │                                                          │
 │       ▼                                                          │
-│  medicareguide_lookup  sort_plans()  (6 deterministic strategies)│
+│  core/lookup.py  sort_plans()  (6 deterministic strategies)│
 │       │                                                          │
 │       ▼                                                          │
-│  medicareguide_inference  _derive_user_priorities()             │
+│  core/inference.py  _derive_user_priorities()             │
 │       │  (deterministic CoT — no extra Gemma call)             │
 │       ▼                                                          │
-│  medicareguide_inference  build_prompt_select_mode()            │
+│  core/inference.py  build_prompt_select_mode()            │
 │       │  (profile + plan table + CoT priorities + WHY_N:)      │
 │       │  (<|think|> token enables Gemma 4 thinking mode)       │
 │       ▼                                                          │
-│  medicareguide_ollama  ──► Gemma 4  ──► structured analysis    │
+│  core/ollama.py  ──► Gemma 4  ──► structured analysis    │
 │       │                                                          │
 │       ├──► plan cards + downloadable HTML summary              │
-│       ├──► medicareguide_tts  Kokoro ONNX  ──► spoken output   │
-│       └──► voice follow-up chat  (medicareguide_stt  STT)      │
+│       ├──► core/tts.py  Kokoro ONNX  ──► spoken output   │
+│       └──► voice follow-up chat  (core/stt.py  STT)      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -130,7 +130,7 @@ Hardcoded HTML blocks (explain cards, plan cards) use raw `$` — HTML is unaffe
 
 ## File Reference
 
-### `medicareguide_session.py` — Session State & Intent Router
+### `core/session.py` — Session State & Intent Router
 
 Tracks all conversation state. Uses **rule-based classification** (no LLM) for speed.
 
@@ -168,9 +168,9 @@ Tracks all conversation state. Uses **rule-based classification** (no LLM) for s
 
 ---
 
-### `medicareguide_lookup.py` — Data Lookup & Filtering
+### `core/lookup.py` — Data Lookup & Filtering
 
-Loads the CMS Landscape CSV once at startup (`@st.cache_resource` in `app.py`).
+Loads the CMS Landscape CSV once at startup (`@st.cache_resource` in `main.py`).
 
 **Filter stages applied by `get_plans_filtered(zipcode, profile)`:**
 
@@ -200,7 +200,7 @@ budget_max → D_SNP → prefers_ppo → star_rating default).
 
 ---
 
-### `medicareguide_inference.py` — Prompt Builder
+### `core/inference.py` — Prompt Builder
 
 Builds Gemma-ready prompts. Does **not** classify questions.
 
@@ -229,7 +229,7 @@ reasoning before producing the user-visible explanation. WELCOME prompts omit th
 
 ---
 
-### `medicareguide_ollama.py` — Ollama Transport
+### `core/ollama.py` — Ollama Transport
 
 HTTP client for the Ollama inference server. Supports both cloud and local models via a `mode` parameter.
 
@@ -246,7 +246,7 @@ HTTP client for the Ollama inference server. Supports both cloud and local model
 
 ---
 
-### `medicareguide_rag.py` — Retrieval-Augmented Generation
+### `core/rag.py` — Retrieval-Augmented Generation
 
 Offline RAG pipeline using the CMS *Medicare & You 2026* handbook (`10050-medicare-and-you.pdf`, 128 pages).
 
@@ -274,7 +274,7 @@ Offline RAG pipeline using the CMS *Medicare & You 2026* handbook (`10050-medica
 
 ---
 
-### `medicareguide_stt.py` — Speech-to-Text
+### `core/stt.py` — Speech-to-Text
 
 Microphone input transcribed **fully offline** by **faster-whisper** (`small` multilingual model, ~500 MB). Language is **auto-detected** on every transcription — no language code is pinned. `_WHISPER_PROMPT` seeds Medicare acronyms (`PPO HMO PDP SNP MOOP LIS D-SNP C-SNP`) as `initial_prompt` to keep them as English tokens even inside Chinese or Spanish speech.
 
@@ -293,7 +293,7 @@ Microphone input transcribed **fully offline** by **faster-whisper** (`small` mu
 
 ---
 
-### `medicareguide_tts.py` — Text-to-Speech
+### `core/tts.py` — Text-to-Speech
 
 Multilingual TTS with two backends, selected automatically per language:
 
@@ -309,13 +309,13 @@ Multilingual TTS with two backends, selected automatically per language:
 
 ---
 
-### `medicareguide_international.py` — UI Internationalisation
+### `ui/international.py` — UI Internationalisation
 
-Full UI translation for **English**, **中文 (Simplified Chinese)**, and **Español (Spanish)** via a translation dict with ~50 string keys. `t(key, language, **kwargs)` returns the translated string with English fallback. `app.py` wraps it as `_t(key)` reading language from session state automatically.
+Full UI translation for **English**, **中文 (Simplified Chinese)**, and **Español (Spanish)** via a translation dict with ~50 string keys. `t(key, language, **kwargs)` returns the translated string with English fallback. `main.py` wraps it as `_t(key)` reading language from session state automatically.
 
 ---
 
-### `style.css` — Elderly-Friendly Stylesheet
+### `ui/style.css` — Elderly-Friendly Stylesheet
 
 | Rule | Value |
 |---|---|
@@ -344,25 +344,25 @@ Saved fields: `intake_step`, `sort_key`, `language`, `profile{}`, `context{}`.
 ## Module Dependency Graph
 
 ```
-app.py  (Streamlit UI — primary entry point)
-    ├── medicareguide_session.py        (state machine, rule-based classifier)
-    │       └── medicareguide_lookup.py       [_resolve_zip()]
-    ├── medicareguide_lookup.py         (pandas, zipcodes)
-    ├── medicareguide_inference.py      (pandas)
-    ├── medicareguide_ollama.py         (requests)
-    ├── medicareguide_rag.py            (pypdf, fastembed, faiss-cpu)
+main.py  (Streamlit UI — primary entry point)
+    ├── core/session.py        (state machine, rule-based classifier)
+    │       └── core/lookup.py       [_resolve_zip()]
+    ├── core/lookup.py         (pandas, zipcodes)
+    ├── core/inference.py      (pandas)
+    ├── core/ollama.py         (requests)
+    ├── core/rag.py            (pypdf, fastembed, faiss-cpu)
     │       └── 10050-medicare-and-you.pdf
-    ├── medicareguide_international.py  (i18n translations dict)
-    ├── medicareguide_tts.py            (kokoro-onnx, onnxruntime, soundfile, numpy)
-    └── medicareguide_stt.py            (sounddevice, numpy, faster-whisper, ffmpeg)
+    ├── ui/international.py  (i18n translations dict)
+    ├── core/tts.py            (kokoro-onnx, onnxruntime, soundfile, numpy)
+    └── core/stt.py            (sounddevice, numpy, faster-whisper, ffmpeg)
 
-test_medicareguide.py  (legacy CLI)
-    ├── medicareguide_session.py
-    ├── medicareguide_lookup.py
-    ├── medicareguide_inference.py
-    ├── medicareguide_ollama.py
-    ├── medicareguide_stt.py
-    └── medicareguide_tts.py
+tests/test_medicareguide.py  (legacy CLI)
+    ├── core/session.py
+    ├── core/lookup.py
+    ├── core/inference.py
+    ├── core/ollama.py
+    ├── core/stt.py
+    └── core/tts.py
 ```
 
 ---
@@ -387,7 +387,7 @@ test_medicareguide.py  (legacy CLI)
 | `_mic_gen_{key}` counter rotates widget key | After transcription `st.rerun()` leaves browser MediaRecorder in stale state; bumping the key forces a fresh widget instance |
 | `_pending_tts_text` defers TTS on WELCOME | Kokoro synthesis is synchronous; storing the answer and calling `st.rerun()` lets text appear first, TTS generates on the next pass |
 | `compute_type="float32"` + `KMP_DUPLICATE_LIB_OK` | `int8` triggers SIGABRT on macOS CPU; duplicate `libiomp5.dylib` in ctranslate2 and numpy triggers a second abort without the env flag |
-| Whisper `small` model, not `base` | `base` (~150MB) frequently misrecognises Medicare acronyms; `small` (~500MB) resolves these with multilingual auto-detection intact |
+| Whisper `small` model, not `base` | `base` (~150MB) frequently micro-recognises Medicare acronyms; `small` (~500MB) resolves these with multilingual auto-detection intact |
 | Whisper language auto-detection | Pinning language to UI setting breaks Chinese speech on English UI; auto-detection handles any mismatch transparently |
 | Chinese/Spanish TTS via macOS `say` | Kokoro v0.5.0 returns silent WAV (no exception) for Chinese input; `say` with premium neural voices produces correct audio |
 | Unicode scan in `generate_audio_bytes()` | `ui_language` alone misses English-UI + Chinese-response case; scanning for `\u4e00–\u9fff` forces `say` routing regardless |
