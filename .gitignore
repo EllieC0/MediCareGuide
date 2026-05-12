@@ -13,3 +13,11 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# Gemini CLI
+GEMINI.md
+.gemini/
+
+# uv
+.python-version
+.venv/

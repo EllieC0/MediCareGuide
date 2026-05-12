@@ -9,8 +9,8 @@ Every year, roughly 11,000 Americans turn 65 and face a Medicare enrollment deci
 ## Quick Start
 
 ```bash
-pip install -r requirements.txt
-streamlit run app.py
+uv sync
+uv run streamlit run app.py
 ```
 
 Requires **Ollama** running locally:
