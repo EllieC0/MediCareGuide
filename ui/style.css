@@ -204,27 +204,6 @@ h3,
     white-space: nowrap !important;
 }
 
-/* ── Compact Utility Buttons (e.g., Switch) ──────────────── */
-[data-testid="column"]:has(#switch-button-target) .stButton > button {
-    min-height: 32px !important;
-    height: 32px !important;
-    font-size: 0.8rem !important;
-    font-weight: 400 !important;
-    border-radius: 4px !important;
-    padding: 0 8px !important;
-    background-color: #f8f9fc !important;
-    color: #444 !important;
-    border-width: 1px !important;
-}
-
-[data-testid="column"]:has(#switch-button-target) .stButton > button p,
-[data-testid="column"]:has(#switch-button-target) .stButton > button span,
-[data-testid="column"]:has(#switch-button-target) .stButton > button div {
-    font-size: 0.8rem !important;
-    font-weight: 400 !important;
-    color: #444 !important;
-}
-
 /* ── Divider ─────────────────────────────────────────────── */
 hr {
     border-color: #ccd6e6 !important;
