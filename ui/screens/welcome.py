@@ -181,24 +181,14 @@ def render_welcome() -> None:
     _is_cloud = st.session_state.get("inference_mode", "cloud") == "cloud"
     infer_label = "⚡ Fast mode (Ollama Cloud)" if _is_cloud else "🔒 Private mode (Fully local)"
     infer_help  = (
-        "Currently using Ollama Cloud — fast responses, no data stored after your session. "
-        "Click to switch to fully local inference (slower, nothing leaves your machine)."
-        if _is_cloud else
-        "Currently running fully locally — private, but slower. "
-        "Click to switch to Ollama Cloud (fast, zero-retention)."
+        "Use Ollama Cloud for fast responses (zero retention). "
+        "Turn off to run fully locally (private, but slower)."
     )
-    col_itxt, col_ibtn = st.columns([5, 1])
-    with col_itxt:
-        st.markdown(
-            f"<p style='font-size:1.15rem; font-weight:600; color:#333; margin:0.4rem 0;'>"
-            f"{infer_label}</p>",
-            unsafe_allow_html=True,
-        )
-    with col_ibtn:
-        st.markdown('<div id="switch-button-target"></div>', unsafe_allow_html=True)
-        if st.button("Switch", key="infer_toggle_welcome", help=infer_help,
-                     use_container_width=True):
-            st.session_state.inference_mode = "local" if _is_cloud else "cloud"
-            st.rerun()
+    
+    # Use a clean, native toggle instead of a custom button
+    new_is_cloud = st.toggle(infer_label, value=_is_cloud, help=infer_help, key="infer_toggle_welcome")
+    if new_is_cloud != _is_cloud:
+        st.session_state.inference_mode = "cloud" if new_is_cloud else "local"
+        st.rerun()
 
     # Inference toggle logic ends here.
