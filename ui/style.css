@@ -205,10 +205,8 @@ h3,
 }
 
 /* ── Compact Utility Buttons (e.g., Switch) ──────────────── */
-.compact-switch .stButton > button,
-.compact-switch .stButton > button p,
-.compact-switch .stButton > button span,
-.compact-switch .stButton > button div {
+button[kind="secondary"]:has(div:contains("Switch")),
+button[kind="secondary"]:has(p:contains("Switch")) {
     min-height: 32px !important;
     height: 32px !important;
     font-size: 0.8rem !important;
@@ -218,6 +216,13 @@ h3,
     background-color: #f8f9fc !important;
     color: #444 !important;
     border-width: 1px !important;
+}
+
+button[kind="secondary"]:has(div:contains("Switch")) p,
+button[kind="secondary"]:has(p:contains("Switch")) p {
+    font-size: 0.8rem !important;
+    font-weight: 400 !important;
+    color: #444 !important;
 }
 
 /* ── Divider ─────────────────────────────────────────────── */
