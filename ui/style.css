@@ -205,8 +205,7 @@ h3,
 }
 
 /* ── Compact Utility Buttons (e.g., Switch) ──────────────── */
-button[kind="secondary"]:has(div:contains("Switch")),
-button[kind="secondary"]:has(p:contains("Switch")) {
+[data-testid="column"]:has(#switch-button-target) .stButton > button {
     min-height: 32px !important;
     height: 32px !important;
     font-size: 0.8rem !important;
@@ -218,8 +217,9 @@ button[kind="secondary"]:has(p:contains("Switch")) {
     border-width: 1px !important;
 }
 
-button[kind="secondary"]:has(div:contains("Switch")) p,
-button[kind="secondary"]:has(p:contains("Switch")) p {
+[data-testid="column"]:has(#switch-button-target) .stButton > button p,
+[data-testid="column"]:has(#switch-button-target) .stButton > button span,
+[data-testid="column"]:has(#switch-button-target) .stButton > button div {
     font-size: 0.8rem !important;
     font-weight: 400 !important;
     color: #444 !important;
