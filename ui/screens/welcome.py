@@ -228,4 +228,7 @@ def render_welcome() -> None:
             if st.button(audio_label, key="audio_welcome", help=_t("audio_toggle_help"),
                          use_container_width=True):
                 st.session_state.audio_enabled = not st.session_state.audio_enabled
+                if st.session_state.audio_enabled:
+                    from ui.backend import _warm_tts
+                    _warm_tts()
                 st.rerun()

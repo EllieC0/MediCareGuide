@@ -47,7 +47,6 @@ button[data-baseweb="tab"] p {
 
 lookup = get_lookup()
 init_session_state(lookup)
-_warm_tts()
 
 # ======================================================================== #
 #  Main routing                                                             #

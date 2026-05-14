@@ -28,8 +28,10 @@ Changes from original _clean_text():
 
 import io
 import re
-import urllib.request
+import time
 from pathlib import Path
+
+import requests
 
 try:
     from kokoro_onnx import Kokoro
@@ -39,6 +41,12 @@ try:
     TTS_AVAILABLE = True
 except ImportError:
     TTS_AVAILABLE = False
+
+# Streamlit might not be available if called from CLI tests
+try:
+    import streamlit as st
+except ImportError:
+    st = None
 
 _CACHE_DIR = Path.home() / ".cache" / "core.tts"
 _MODEL_URL  = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx"
@@ -110,13 +118,56 @@ def _generate_audio_bytes_say(text: str, voice: str) -> "bytes | None":
 # ====================================================================== #
 
 def _download_if_missing(url: str, dest: Path) -> None:
-    """Download a file with a progress indicator if it doesn't exist."""
+    """Download a file with a Streamlit progress indicator and ETA if it doesn't exist."""
     if dest.exists():
         return
     dest.parent.mkdir(parents=True, exist_ok=True)
     filename = dest.name
+    
     print(f"[TTS] Downloading {filename} (first use only)...")
-    urllib.request.urlretrieve(url, dest)
+    
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+    total_size = int(response.headers.get('content-length', 0))
+    
+    # Initialize Streamlit progress bar if running in a Streamlit context
+    progress_bar = None
+    status_text = None
+    if st and hasattr(st, "progress"):
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+    
+    downloaded = 0
+    start_time = time.time()
+    
+    with open(dest, 'wb') as f:
+        for chunk in response.iter_content(chunk_size=32768):
+            if chunk:
+                f.write(chunk)
+                downloaded += len(chunk)
+                
+                if progress_bar:
+                    done = downloaded / total_size
+                    elapsed = time.time() - start_time
+                    speed = downloaded / elapsed if elapsed > 0 else 0
+                    remaining = (total_size - downloaded) / speed if speed > 0 else 0
+                    
+                    mb_done = downloaded / (1024 * 1024)
+                    mb_total = total_size / (1024 * 1024)
+                    
+                    eta_min = int(remaining // 60)
+                    eta_sec = int(remaining % 60)
+                    eta_str = f"~{eta_min}m {eta_sec}s remaining" if eta_min > 0 else f"~{eta_sec}s remaining"
+                    
+                    progress_bar.progress(min(done, 1.0))
+                    status_text.markdown(
+                        f"**Downloading {filename}** ({mb_done:.1f} / {mb_total:.1f} MB) — {eta_str}"
+                    )
+
+    if progress_bar:
+        progress_bar.empty()
+        status_text.empty()
+        
     print(f"[TTS] {filename} ready.")
 
 
