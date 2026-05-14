@@ -178,17 +178,19 @@ def render_welcome() -> None:
         </div>""", unsafe_allow_html=True)
 
     st.divider()
-    _is_cloud = st.session_state.get("inference_mode", "cloud") == "cloud"
-    infer_label = "⚡ Fast mode (Ollama Cloud)" if _is_cloud else "🔒 Private mode (Fully local)"
-    infer_help  = (
-        "Use Ollama Cloud for fast responses (zero retention). "
-        "Turn off to run fully locally (private, but slower)."
-    )
-    
-    # Use a clean, native toggle instead of a custom button
-    new_is_cloud = st.toggle(infer_label, value=_is_cloud, help=infer_help, key="infer_toggle_welcome")
-    if new_is_cloud != _is_cloud:
-        st.session_state.inference_mode = "cloud" if new_is_cloud else "local"
-        st.rerun()
+    with st.container(border=True):
+        _is_cloud = st.session_state.get("inference_mode", "cloud") == "cloud"
+        infer_label = "⚡ Fast mode (Ollama Cloud)" if _is_cloud else "🔒 Private mode (Fully local)"
+        infer_help  = (
+            "Use Ollama Cloud for fast responses (zero retention). "
+            "Turn off to run fully locally (private, but slower)."
+        )
+        
+        st.markdown('<div class="inference-toggle-box">', unsafe_allow_html=True)
+        new_is_cloud = st.toggle(infer_label, value=_is_cloud, help=infer_help, key="infer_toggle_welcome")
+        if new_is_cloud != _is_cloud:
+            st.session_state.inference_mode = "cloud" if new_is_cloud else "local"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # Inference toggle logic ends here.

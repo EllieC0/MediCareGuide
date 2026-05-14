@@ -204,7 +204,23 @@ h3,
     white-space: nowrap !important;
 }
 
-/* ── Divider ─────────────────────────────────────────────── */
+/* ── Inference Toggle Box ─────────────────────────────────── */
+.inference-toggle-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.inference-toggle-box label[data-baseweb="checkbox"] {
+    margin-right: 0 !important;
+}
+
+.inference-toggle-box .stWidgetLabel {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
 hr {
     border-color: #ccd6e6 !important;
     margin: 1.2rem 0 !important;
