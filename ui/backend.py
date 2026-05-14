@@ -8,7 +8,7 @@ CSV_PATH = Path(__file__).parent.parent / "data" / "CY2026_Landscape_202603.csv"
 def get_lookup() -> MediCareGuideLookup:
     return MediCareGuideLookup(CSV_PATH)
 
-@st.cache_resource(show_spinner="Loading voice model… (first time only)")
+@st.cache_resource(show_spinner=False)
 def _warm_tts() -> None:
     """Pre-load the Kokoro ONNX model at startup so audio plays instantly."""
     try:

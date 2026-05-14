@@ -126,7 +126,8 @@ def _download_if_missing(url: str, dest: Path) -> None:
     
     print(f"[TTS] Downloading {filename} (first use only)...")
     
-    response = requests.get(url, stream=True)
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+    response = requests.get(url, stream=True, headers=headers)
     response.raise_for_status()
     total_size = int(response.headers.get('content-length', 0))
     
@@ -134,13 +135,22 @@ def _download_if_missing(url: str, dest: Path) -> None:
     progress_bar = None
     status_text = None
     if st and hasattr(st, "progress"):
-        progress_bar = st.progress(0)
-        status_text = st.empty()
+        import logging
+        logger = logging.getLogger("streamlit.runtime.scriptrunner_utils.script_run_context")
+        old_level = logger.level
+        logger.setLevel(logging.ERROR)
+        from streamlit.runtime.scriptrunner import get_script_run_ctx
+        ctx = get_script_run_ctx()
+        logger.setLevel(old_level)
+        if ctx is not None:
+            progress_bar = st.progress(0)
+            status_text = st.empty()
     
     downloaded = 0
     start_time = time.time()
     
-    with open(dest, 'wb') as f:
+    tmp_dest = dest.with_suffix(".tmp")
+    with open(tmp_dest, 'wb') as f:
         for chunk in response.iter_content(chunk_size=32768):
             if chunk:
                 f.write(chunk)
@@ -164,6 +174,8 @@ def _download_if_missing(url: str, dest: Path) -> None:
                         f"**Downloading {filename}** ({mb_done:.1f} / {mb_total:.1f} MB) — {eta_str}"
                     )
 
+    tmp_dest.rename(dest)
+
     if progress_bar:
         progress_bar.empty()
         status_text.empty()
@@ -177,10 +189,19 @@ def _get_kokoro() -> "Kokoro":
     if _kokoro is None:
         model_path  = _CACHE_DIR / "kokoro-v1.0.onnx"
         voices_path = _CACHE_DIR / "voices-v1.0.bin"
-        _download_if_missing(_MODEL_URL,  model_path)
-        _download_if_missing(_VOICES_URL, voices_path)
-        _kokoro = Kokoro(str(model_path), str(voices_path))
-    return _kokoro
+        if _kokoro is None:
+            _download_if_missing(_MODEL_URL,  model_path)
+            _download_if_missing(_VOICES_URL, voices_path)
+            try:
+                _kokoro = Kokoro(str(model_path), str(voices_path))
+            except Exception as e:
+                if "Protobuf parsing failed" in str(e) or "INVALID_PROTOBUF" in str(e):
+                    print(f"[TTS] Corrupted model detected. Deleting cache: {model_path}")
+                    model_path.unlink(missing_ok=True)
+                    voices_path.unlink(missing_ok=True)
+                    raise RuntimeError("TTS model was corrupted and has been deleted. Please try again to re-download.") from e
+                raise
+        return _kokoro
 
 
 # ====================================================================== #

@@ -9,6 +9,7 @@ Every year, roughly 11,000 Americans turn 65 and face a Medicare enrollment deci
 ## Quick Start
 
 ```bash
+# ffmpeg is required for audio playback (e.g., brew install ffmpeg / apt install ffmpeg)
 uv sync
 uv run streamlit run main.py
 ```

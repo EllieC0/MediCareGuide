@@ -178,7 +178,7 @@ tests/test_medicareguide.py  (legacy CLI)
 | `select_analysis` stores raw text | `WHY_N:` lines kept in `select_analysis` for `_parse_plan_whys()`; `chat_history` stores cleaned version via `_strip_why_lines()` |
 | No `st.chat_input` on intake screen | `st.chat_input` is sticky at viewport bottom — nothing can render below it; replaced with `st.form` so the ← back button can sit below the input |
 | PDP premium fallback | PDP plans have `"Not Applicable"` in consolidated premium column; `_plan_premium()` falls back to `"Part D Total Premium"` for display and sort |
-| TTS pre-warm at startup | Kokoro model (~350MB) loads lazily on first call causing a multi-minute delay; `@st.cache_resource` warms it at startup |
+| Deferred TTS Download | The Kokoro model (~350MB) now downloads dynamically only when the user enables 'Voice Mode', utilizing a streaming Streamlit progress bar. This ensures instant app startup while maintaining a smooth user experience. |
 | Chat messages never write to profile | Profile values come exclusively from `set_intake_field()`. `process_turn()` is a pure Q&A handler — asking "What is a PPO?" in chat cannot accidentally set `prefers_ppo=True` |
 | Deterministic CoT, no second Gemma call | A second Gemma call to derive priorities would add 15–30s latency; `_derive_user_priorities()` produces the same structured anchoring purely in Python |
 | `<|think|>` only on SELECT prompts | Thinking mode adds latency unsuitable for quick handbook Q&A; per-prompt token control means one model serves both use cases |
