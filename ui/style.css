@@ -180,6 +180,19 @@ h3,
     min-height: 48px !important;
 }
 
+/* ── Chat section tightening ────────────────────────────── */
+.chat-section-compact [data-testid="stVerticalBlock"] {
+    gap: 0.2rem !important;
+}
+
+.chat-section-compact h4 {
+    margin-bottom: 0.1rem !important;
+}
+
+.chat-section-compact .stButton button {
+    margin-bottom: 0.4rem !important;
+}
+
 /* ── Audio toggle pill — override global min-height ─────── */
 .audio-toggle-col .stButton > button {
     min-height: 28px !important;

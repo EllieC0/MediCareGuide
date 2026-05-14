@@ -107,26 +107,24 @@ def render_welcome() -> None:
 
     st.divider()
     
-    # ── Unified Voice Mode ───────────────────────────────────────────────────
+    # ── Chat & Voice Section ────────────────────────────────────────────────
+    st.markdown('<div class="chat-section-compact">', unsafe_allow_html=True)
+    
+    st.markdown(f"#### {_t('welcome_chat_heading')}")
+    
     if TTS_AVAILABLE:
-        v_col1, v_col2 = st.columns([4, 2])
-        with v_col1:
-            st.markdown(f"#### {_t('welcome_chat_heading')}")
-        with v_col2:
-            v_label = _t("voice_mode_on") if st.session_state.audio_enabled else _t("voice_mode_off")
-            if st.button(v_label, key="voice_mode_toggle", help=_t("voice_mode_hint"), use_container_width=True):
-                st.session_state.audio_enabled = not st.session_state.audio_enabled
-                if st.session_state.audio_enabled:
-                    from ui.backend import _warm_tts
-                    _warm_tts()
-                st.rerun()
-    else:
-        st.markdown(f"#### {_t('welcome_chat_heading')}")
+        v_label = _t("voice_mode_on") if st.session_state.audio_enabled else _t("voice_mode_off")
+        if st.button(v_label, key="voice_mode_toggle", help=_t("voice_mode_hint"), use_container_width=True):
+            st.session_state.audio_enabled = not st.session_state.audio_enabled
+            if st.session_state.audio_enabled:
+                from ui.backend import _warm_tts
+                _warm_tts()
+            st.rerun()
 
     if st.session_state.chat_history:
         render_chat_history()
     
-    # Microphone input — only visible if Voice Mode is ON
+    # Microphone input
     voiced = None
     if st.session_state.audio_enabled and TTS_AVAILABLE:
         voiced = render_voice_input("welcome_mic")
@@ -147,14 +145,14 @@ def render_welcome() -> None:
     st.markdown("""
     <style>
     div[data-testid="stForm"] [data-baseweb="input"] {
-        min-height: 120px !important;
+        min-height: 80px !important;
         align-items: center !important;
     }
     div[data-testid="stForm"] [data-baseweb="input"] input {
         font-size: 1.4rem !important;
     }
     div[data-testid="stForm"] [data-testid="stFormSubmitButton"] button {
-        min-height: 120px !important;
+        min-height: 80px !important;
         font-size: 1.4rem !important;
         font-weight: 700 !important;
     }
@@ -187,6 +185,7 @@ def render_welcome() -> None:
         if st.session_state.audio_enabled and TTS_AVAILABLE:
             st.session_state._pending_tts_text = clean_answer
         st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.divider()
     st.markdown(f'<div class="how-it-works-title">{_t("how_it_works")}</div>', unsafe_allow_html=True)
