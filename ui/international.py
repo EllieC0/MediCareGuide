@@ -593,6 +593,26 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "中文":     "切换语音回复",
         "Español":  "Activar/desactivar respuestas de voz",
     },
+    "voice_mode_label": {
+        "English": "Voice Mode",
+        "中文":     "语音模式",
+        "Español":  "Modo de voz",
+    },
+    "voice_mode_on": {
+        "English": "🔊 Voice Mode: ON",
+        "中文":     "🔊 语音模式：开启",
+        "Español":  "🔊 Modo de voz: ACTIVADO",
+    },
+    "voice_mode_off": {
+        "English": "🔇 Voice Mode: OFF",
+        "中文":     "🔇 语音模式：关闭",
+        "Español":  "🔇 Modo de voz: DESACTIVADO",
+    },
+    "voice_mode_hint": {
+        "English": "Enables both the microphone and the read-aloud features.",
+        "中文":     "开启话筒输入和语音朗读功能。",
+        "Español":  "Activa tanto el micrófono como la lectura en voz alta.",
+    },
 }
 
 

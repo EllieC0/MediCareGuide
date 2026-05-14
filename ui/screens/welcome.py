@@ -106,10 +106,30 @@ def render_welcome() -> None:
     """)
 
     st.divider()
-    st.markdown(f"#### {_t('welcome_chat_heading')}")
+    
+    # ── Unified Voice Mode ───────────────────────────────────────────────────
+    if TTS_AVAILABLE:
+        v_col1, v_col2 = st.columns([4, 2])
+        with v_col1:
+            st.markdown(f"#### {_t('welcome_chat_heading')}")
+        with v_col2:
+            v_label = _t("voice_mode_on") if st.session_state.audio_enabled else _t("voice_mode_off")
+            if st.button(v_label, key="voice_mode_toggle", help=_t("voice_mode_hint"), use_container_width=True):
+                st.session_state.audio_enabled = not st.session_state.audio_enabled
+                if st.session_state.audio_enabled:
+                    from ui.backend import _warm_tts
+                    _warm_tts()
+                st.rerun()
+    else:
+        st.markdown(f"#### {_t('welcome_chat_heading')}")
 
     if st.session_state.chat_history:
         render_chat_history()
+    
+    # Microphone input — only visible if Voice Mode is ON
+    voiced = None
+    if st.session_state.audio_enabled and TTS_AVAILABLE:
+        voiced = render_voice_input("welcome_mic")
 
     if st.session_state.get("_pending_tts"):
         st.audio(st.session_state._pending_tts, format="audio/wav", autoplay=True)
@@ -153,7 +173,6 @@ def render_welcome() -> None:
         with col_btn:
             submitted = st.form_submit_button(_t("ask_button"), use_container_width=True)
 
-    voiced = render_voice_input("welcome_mic")
     if voiced:
         submitted = True
         user_input = voiced
@@ -216,19 +235,5 @@ def render_welcome() -> None:
 
     if TTS_AVAILABLE:
         st.divider()
-        audio_label = _t("audio_on") if st.session_state.audio_enabled else _t("audio_off")
-        col_txt, col_btn = st.columns([5, 1])
-        with col_txt:
-            st.markdown(
-                f"<p style='font-size:1.15rem; font-weight:600; color:#333; margin:0.4rem 0;'>"
-                f"{_t('audio_accessibility')}</p>",
-                unsafe_allow_html=True,
-            )
-        with col_btn:
-            if st.button(audio_label, key="audio_welcome", help=_t("audio_toggle_help"),
-                         use_container_width=True):
-                st.session_state.audio_enabled = not st.session_state.audio_enabled
-                if st.session_state.audio_enabled:
-                    from ui.backend import _warm_tts
-                    _warm_tts()
-                st.rerun()
+        # The Audio toggle was here, but is being moved to a unified control near the chat input.
+        pass
