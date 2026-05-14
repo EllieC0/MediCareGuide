@@ -46,9 +46,13 @@ The mode toggle is on the opening screen. All other components (STT, TTS, embedd
 ---
 ## Project Structure
 
-| File | Purpose |
+| File / Folder | Purpose |
 |---|---|
-| `main.py` | Primary entry point — Streamlit web UI |
+| `main.py` | Primary entry point — Lightweight Streamlit router |
+| `ui/screens/` | Screen modules (Welcome, Intake, Select) |
+| `ui/components.py` | Shared UI components (chat, voice, i18n helpers) |
+| `ui/state.py` | Session state management and disk persistence |
+| `ui/backend.py` | Cached resource loaders (CSV, RAG, TTS warm) |
 | `ui/international.py` | UI i18n — English, 中文, Español |
 | `ui/style.css` | Elderly-friendly stylesheet (large text, high contrast) |
 | `core/inference.py` | Prompt builders for WELCOME and SELECT modes |
