@@ -195,9 +195,11 @@ def render_welcome() -> None:
             unsafe_allow_html=True,
         )
     with col_ibtn:
+        st.markdown('<div class="compact-switch">', unsafe_allow_html=True)
         if st.button("Switch", key="infer_toggle_welcome", help=infer_help,
                      use_container_width=True):
             st.session_state.inference_mode = "local" if _is_cloud else "cloud"
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # Inference toggle logic ends here.
