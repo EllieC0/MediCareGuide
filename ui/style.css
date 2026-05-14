@@ -182,15 +182,15 @@ h3,
 
 /* ── Chat section tightening ────────────────────────────── */
 .chat-section-compact [data-testid="stVerticalBlock"] {
-    gap: 0.2rem !important;
+    gap: 0.75rem !important;
 }
 
 .chat-section-compact h4 {
-    margin-bottom: 0.1rem !important;
+    margin-bottom: 0.4rem !important;
 }
 
 .chat-section-compact .stButton button {
-    margin-bottom: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
 }
 
 /* ── Audio toggle pill — override global min-height ─────── */

@@ -145,14 +145,14 @@ def render_welcome() -> None:
     st.markdown("""
     <style>
     div[data-testid="stForm"] [data-baseweb="input"] {
-        min-height: 80px !important;
+        min-height: 100px !important;
         align-items: center !important;
     }
     div[data-testid="stForm"] [data-baseweb="input"] input {
         font-size: 1.4rem !important;
     }
     div[data-testid="stForm"] [data-testid="stFormSubmitButton"] button {
-        min-height: 80px !important;
+        min-height: 100px !important;
         font-size: 1.4rem !important;
         font-weight: 700 !important;
     }
