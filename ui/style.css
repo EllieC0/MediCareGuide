@@ -519,24 +519,13 @@ div[data-testid="stForm"] .stFormSubmitButton button {
 }
 
 /* ── Hero CTA Button ────────────────────────────────────── */
-.hero-cta-button-container .stButton > button {
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) > div:last-child button {
     min-height: 80px !important;
-    background-color: #ffffff !important;
-    color: #003366 !important;
-    border: 3px solid #003366 !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.15) !important;
 }
 
-.hero-cta-button-container .stButton > button:hover {
-    background-color: #e8eef5 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 51, 102, 0.2) !important;
-}
-
-.hero-cta-button-container .stButton > button p,
-.hero-cta-button-container .stButton > button span,
-.hero-cta-button-container .stButton > button div {
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) > div:last-child button p,
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) > div:last-child button span,
+[data-testid="stVerticalBlock"]:has(.hero-cta-section) > div:last-child button div {
     font-size: 1.8rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.01em !important;

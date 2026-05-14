@@ -63,8 +63,6 @@ def render_welcome() -> None:
         </div>
         <div class="hero-cta-section"></div>
         """, unsafe_allow_html=True)
-        
-        st.markdown('<div class="hero-cta-button-container">', unsafe_allow_html=True)
         if st.button(
             _t("cta_button"),
             type="secondary",
@@ -74,7 +72,6 @@ def render_welcome() -> None:
             st.session_state.screen = "INTAKE"
             st.session_state.intake_step = 0
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
 
     st.divider()
     
