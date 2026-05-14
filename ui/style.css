@@ -414,9 +414,9 @@ hr {
 }
 
 /* Per-step accent colours */
-.step-card:nth-child(1) { border-top-color: #0072ce; }   /* blue   — Tell us */
-.step-card:nth-child(2) { border-top-color: #00966e; }   /* teal   — Filter & sort */
-.step-card:nth-child(3) { border-top-color: #c75000; }   /* orange — Gemma explains */
+.step-card-1 { border-top-color: #0072ce !important; }   /* blue   — Tell us */
+.step-card-2 { border-top-color: #00966e !important; }   /* teal   — Filter & sort */
+.step-card-3 { border-top-color: #c75000 !important; }   /* orange — Gemma explains */
 
 .step-num {
     width: 36px;
@@ -434,9 +434,9 @@ hr {
 }
 
 /* Match num circle to step colour */
-.step-card:nth-child(1) .step-num { background: #0072ce; }
-.step-card:nth-child(2) .step-num { background: #00966e; }
-.step-card:nth-child(3) .step-num { background: #c75000; }
+.step-card-1 .step-num { background: #0072ce !important; }
+.step-card-2 .step-num { background: #00966e !important; }
+.step-card-3 .step-num { background: #c75000 !important; }
 
 .step-title {
     font-size: 1rem;
@@ -447,9 +447,9 @@ hr {
 }
 
 /* Match title colour to step */
-.step-card:nth-child(1) .step-title { color: #0055aa; }
-.step-card:nth-child(2) .step-title { color: #006b4e; }
-.step-card:nth-child(3) .step-title { color: #b54500; }
+.step-card-1 .step-title { color: #0055aa !important; }
+.step-card-2 .step-title { color: #006b4e !important; }
+.step-card-3 .step-title { color: #b54500 !important; }
 
 .step-desc {
     font-size: 0.87rem;

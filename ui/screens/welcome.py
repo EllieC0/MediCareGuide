@@ -159,24 +159,25 @@ def render_welcome() -> None:
     st.markdown(f'<div class="how-it-works-title">{_t("how_it_works")}</div>', unsafe_allow_html=True)
     h1, h2, h3 = st.columns(3)
     with h1:
-        st.markdown(f"""<div class="step-card">
+        st.markdown(f"""<div class="step-card step-card-1">
             <div class="step-num">1</div>
             <div class="step-title">{_t("step1_title")}</div>
             <div class="step-desc">{_t("step1_desc")}</div>
         </div>""", unsafe_allow_html=True)
     with h2:
-        st.markdown(f"""<div class="step-card">
+        st.markdown(f"""<div class="step-card step-card-2">
             <div class="step-num">2</div>
             <div class="step-title">{_t("step2_title")}</div>
             <div class="step-desc">{_t("step2_desc")}</div>
         </div>""", unsafe_allow_html=True)
     with h3:
-        st.markdown(f"""<div class="step-card">
+        st.markdown(f"""<div class="step-card step-card-3">
             <div class="step-num">3</div>
             <div class="step-title">{_t("step3_title")}</div>
             <div class="step-desc">{_t("step3_desc")}</div>
         </div>""", unsafe_allow_html=True)
 
+    st.divider()
     _is_cloud = st.session_state.get("inference_mode", "cloud") == "cloud"
     infer_label = "⚡ Fast mode (Ollama Cloud)" if _is_cloud else "🔒 Private mode (Fully local)"
     infer_help  = (
