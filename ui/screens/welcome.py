@@ -63,6 +63,8 @@ def render_welcome() -> None:
         </div>
         <div class="hero-cta-section"></div>
         """, unsafe_allow_html=True)
+        
+        st.markdown('<div class="hero-cta-button-container">', unsafe_allow_html=True)
         if st.button(
             _t("cta_button"),
             type="secondary",
@@ -72,38 +74,7 @@ def render_welcome() -> None:
             st.session_state.screen = "INTAKE"
             st.session_state.intake_step = 0
             st.rerun()
-
-    st.html("""
-    <script>
-    (function() {
-        function styleBtn() {
-            var doc = window.parent.document;
-            var banner = doc.querySelector('.hero-banner');
-            if (!banner) return false;
-            var container = banner.closest('[data-testid="stVerticalBlock"]');
-            if (!container) return false;
-            var btns = container.querySelectorAll(
-                'button:not([data-testid="baseButton-primary"])'
-            );
-            btns.forEach(function(btn) {
-                btn.style.setProperty('min-height', '80px', 'important');
-                btn.style.setProperty('padding-bottom', '0', 'important');
-                var p = btn.querySelector('p');
-                if (p) {
-                    p.style.setProperty('font-size', '1.8rem', 'important');
-                    p.style.setProperty('font-weight', '700', 'important');
-                    p.style.setProperty('letter-spacing', '0.02em', 'important');
-                }
-            });
-            return btns.length > 0;
-        }
-        var tries = 0;
-        var iv = setInterval(function() {
-            if (styleBtn() || ++tries > 30) clearInterval(iv);
-        }, 100);
-    })();
-    </script>
-    """)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.divider()
     
@@ -209,7 +180,6 @@ def render_welcome() -> None:
             <div class="step-desc">{_t("step3_desc")}</div>
         </div>""", unsafe_allow_html=True)
 
-    st.divider()
     _is_cloud = st.session_state.get("inference_mode", "cloud") == "cloud"
     infer_label = "⚡ Fast mode (Ollama Cloud)" if _is_cloud else "🔒 Private mode (Fully local)"
     infer_help  = (
@@ -232,7 +202,4 @@ def render_welcome() -> None:
             st.session_state.inference_mode = "local" if _is_cloud else "cloud"
             st.rerun()
 
-    if TTS_AVAILABLE:
-        st.divider()
-        # The Audio toggle was here, but is being moved to a unified control near the chat input.
-        pass
+    # Inference toggle logic ends here.
