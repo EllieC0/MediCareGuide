@@ -1,7 +1,9 @@
 # MediCareGuide
 ### Democratizing Medicare Knowledge for America's Elderly
 
-Every year, roughly 11,000 Americans turn 65 and face a Medicare enrollment decision that can cost them thousands of dollars if they get it wrong. The official CMS Plan Finder is confusing, recommendations are opaque, and the "help" available is often a broker on commission. MediCareGuide is a conversational, multilingual Medicare plan advisor that gives elderly users plain-language, personalized guidance — grounded in the official CMS handbook and 2026 plan database — with no account, no subscription, and no broker commission.
+Every year, roughly 11,000 Americans turn 65 and face a Medicare enrollment decision that can cost them thousands of dollars if they get it wrong. The official CMS Plan Finder is confusing, recommendations are opaque, and the "help" available is often a broker on commission. 
+
+MediCareGuide is a conversational, multilingual Medicare plan advisor that gives elderly users plain-language, personalized guidance — grounded in the official CMS handbook and 2026 plan database — with no account, no subscription, and no broker commission.
 
 
 ---
