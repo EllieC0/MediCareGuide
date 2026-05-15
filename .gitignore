@@ -1,6 +1,7 @@
 # Documentation and Requirements
 ARCHITECTURE.md
 requirements.txt
+ui/screens/screen_explain.md
 
 # MediCareGuide — large data files in the data/ directory
 data/CY2026_Landscape_202603.csv
