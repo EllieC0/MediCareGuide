@@ -68,8 +68,6 @@ The mode toggle is on the opening screen. All other components (STT, TTS, embedd
 | `tests/test_medicareguide.py` | Legacy CLI interface and test suite |
 | `data/` | Required data files (CSV, PDF) |
 
-For architecture details, pipeline diagrams, and design decisions see [ARCHITECTURE.md](ARCHITECTURE.md).
-
 ---
 ### macOS Audio Setup (Chinese and Spanish TTS)
 
