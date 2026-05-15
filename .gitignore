@@ -1,3 +1,7 @@
+# Documentation and Requirements
+ARCHITECTURE.md
+requirements.txt
+
 # MediCareGuide — large data files in the data/ directory
 data/CY2026_Landscape_202603.csv
 data/10050-medicare-and-you.pdf
