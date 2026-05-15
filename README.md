@@ -90,4 +90,4 @@ Chinese and Spanish read-aloud uses macOS premium neural voices. Download them o
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE). Matches Gemma 4's license terms.
+Apache 2.0 — see [LICENSE](LICENSE).
