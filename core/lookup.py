@@ -466,7 +466,7 @@ def derive_sort_key(profile: dict, context: dict) -> tuple[str, str]:
         return (
             "total_cost",
             f"You take regular prescriptions and set a budget of "
-            f"\${budget_max}/month. Plans are sorted by estimated annual cost "
+            rf"\${budget_max}/month. Plans are sorted by estimated annual cost "
             f"(premium \u00d7 12 + out-of-pocket maximum) for the most honest "
             f"picture of what you will spend.",
         )
@@ -490,7 +490,7 @@ def derive_sort_key(profile: dict, context: dict) -> tuple[str, str]:
     if budget_max is not None:
         return (
             "lowest_premium",
-            f"You set a budget of \${budget_max}/month. Plans are sorted by "
+            rf"You set a budget of \${budget_max}/month. Plans are sorted by "
             f"lowest monthly premium within your budget.",
         )
 
@@ -959,13 +959,13 @@ class MediCareGuideLookup:
                     name        = "budget_filter",
                     applied     = False,
                     reason      = (
-                        f"Budget ceiling = \${budget_max}/month. "
+                        rf"Budget ceiling = \${budget_max}/month. "
                         f"No plans found at or below this premium."
                     ),
                     rows_before = rows_before,
                     rows_after  = rows_before,
                     note        = (
-                        f"No plans found under \${budget_max}/month after other "
+                        rf"No plans found under \${budget_max}/month after other "
                         f"filters. Showing all {rows_before} plan(s) without the "
                         f"budget ceiling so you can see what's available."
                     ),
@@ -976,9 +976,9 @@ class MediCareGuideLookup:
                     name        = "budget_filter",
                     applied     = True,
                     reason      = (
-                        f"Budget ceiling = \${budget_max}/month. "
+                        rf"Budget ceiling = \${budget_max}/month. "
                         f"Kept plans with Monthly Consolidated Premium "
-                        f"≤ \${budget_max}."
+                        rf"≤ \${budget_max}."
                     ),
                     rows_before = rows_before,
                     rows_after  = len(df),
@@ -1066,4 +1066,4 @@ if __name__ == "__main__":
             "_rank",
         ]
         show_cols = [c for c in cols if c in sorted_df.columns]
-        print(sorted_df[show_cols].head(5).to_string(index=False))
+        print(sorted_df[show_cols].head(5).to_string(index=False)))
