@@ -1066,4 +1066,4 @@ if __name__ == "__main__":
             "_rank",
         ]
         show_cols = [c for c in cols if c in sorted_df.columns]
-        print(sorted_df[show_cols].head(5).to_string(index=False)))
+        print(sorted_df[show_cols].head(5).to_string(index=False))
