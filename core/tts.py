@@ -171,7 +171,7 @@ def _download_if_missing(url: str, dest: Path) -> None:
                     
                     progress_bar.progress(min(done, 1.0))
                     status_text.markdown(
-                        f"**Downloading {filename}** ({mb_done:.1f} / {mb_total:.1f} MB) — {eta_str}"
+                        f"**Downloading {filename}**: {mb_done:.1f} / {mb_total:.1f} MB) — {eta_str}"
                     )
 
     tmp_dest.rename(dest)
